@@ -1,9 +1,29 @@
-import s from './App.module.scss';
+import React, { Component, lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+
+import MessengerContainer from './components/Messenger/MessengerContainer';
 
 const App = () => {
   return (
-    <div className={s.app}>my app started</div>
+    <div>
+      <Suspense fallback={<div>Loading</div>}>
+        <Routes>
+          <Route path="/" element={<MessengerContainer />} />
+        </Routes>
+      </Suspense>
+    </div>
   );
 }
 
-export default App;
+class AppContainer extends Component {
+  render() {
+    return (
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <App />
+      </BrowserRouter>
+    );
+  }
+}
+
+export default AppContainer;
