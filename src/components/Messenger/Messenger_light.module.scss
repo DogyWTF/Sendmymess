@@ -1,10 +1,18 @@
+.main {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
 .menu {
     display: block;
     box-sizing: border-box;
 
-    height: 100%;
-    width: 400px;
+    min-height: 100vh;
+    width: 100%;
+    min-width: 365px;
+
     padding: 10px;
+
     border-right: 1px solid #6C6B6A;
 
     .header {
@@ -16,6 +24,9 @@
         .logo {
             display: flex;
             align-items: center;
+
+            margin: 0 12px 0 0;
+
             cursor: pointer;
 
             .logo_img {
@@ -33,7 +44,7 @@
 
         .input {
             position: relative;
-            width: 237px;
+            width: 100%;
             height: 25px;
 
             .input_btn {
@@ -55,7 +66,8 @@
 
             .input_input {
                 position: absolute;
-                width: 237px;
+                width: 100%;
+                min-width: 200px;
                 height: 25px;
 
                 padding: 0 25px 0 10px;
@@ -67,7 +79,20 @@
         }
     }
 
+    .headerHover {
+        .logo {
+            .logo_text {
+                font-weight: 300;
+                color: #000000;
+            }
+        }
+    }
+
+
     .chat {
+        max-height: 93.5vh;
+        overflow-y: scroll;
+
         .user {
             display: flex;
             width: 100%;
@@ -77,20 +102,51 @@
             padding: 0 8px;
 
             border-radius: 10px;
+
             cursor: pointer;
+            transition: 0.3s;
 
             .user_img {
                 width: 50px;
                 height: 50px;
                 margin: 0 12px 0 0;
+
+                border-radius: 50px;
             }
 
             .user_data {
 
                 .user_activity {
+                    display: flex;
+                    align-items: center;
 
                     .user_name {
                         font-size: 20px;
+                    }
+
+                    .active {
+                        display: block;
+                        width: 8px;
+                        height: 8px;
+                        margin: 0 4px;
+
+                        background-color: #000;
+
+                        border-radius: 8px;
+                    }
+
+                    .missed_msg {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 20px;
+                        height: 10px;
+
+                        border: 1px solid #000000;
+                        border-radius: 30px;
+
+                        font-size: 8px;
                     }
                 }
 
@@ -100,5 +156,119 @@
                 }
             }
         }
+
+        .user:hover {
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            transition: 0.3s;
+        }
+
+        .userActive {
+            background-color: #000;
+
+            .user_data {
+                .user_activity {
+                    .user_name {
+                        color: #fff;
+                    }
+
+                    .active {
+                        background-color: rgb(255, 255, 255);
+                    }
+
+                    .missed_msg {
+                        border: 1px solid #ffffff;
+                        color: #fff;
+                    }
+                }
+
+                .user_lastmsg {
+                    color: #fff;
+                }
+            }
+        }
     }
+
+    .chat::-webkit-scrollbar {
+        width: 5px;
+        background-color: #f9f9fd;
+    }
+
+    .chat::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #000000;
+    }
+
+    .chat::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background-color: #f9f9fd;
+    }
+}
+
+.messenger {
+    min-height: 100vh;
+    background-color: #F0F2F5;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        width: 100%;
+        height: 80px;
+
+        padding: 0 30px;
+
+        background-color: #fff;
+
+        .menu_btn {
+            width: 30px;
+            height: 30px;
+
+            cursor: pointer;
+            transition: .3s;
+            transform: rotate(180deg);
+        } .menu_btn:hover {
+            transition: .3s;
+            transform: scale(0.9);
+        }
+
+        .info {
+            text-align: center;
+
+            .name {
+                font-size: 28px;
+
+                cursor: pointer;
+                transition: 0.3s;
+            } .name:hover {
+                color: rgb(90, 90, 90);
+                transition: 0.3s;
+            }
+
+            .description {
+                font-weight: 300;
+                font-size: 13px;
+                margin: 0 0 3px 0;
+            }
+
+            .was_last_time {
+                font-weight: 200;
+                font-size: 10px;
+            }
+        }
+
+        .settings {
+            width: 30px;
+            height: 30px;
+
+            cursor: pointer;
+            transition: .3s;
+            transition-timing-function: ease-in-out;
+        } .settings:hover {
+            transition: .3s;
+            transform: scale(0.9) rotate(360deg);
+        }
+    }
+    
 }

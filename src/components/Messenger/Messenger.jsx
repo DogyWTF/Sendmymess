@@ -1,12 +1,17 @@
 import React from 'react';
 import light from "./Messenger_light.module.scss"
 
+import User from './User/User';
+
 // img
 import magnifying_glass from './../../assets/img/input/magnifying-glass.png';
 
 // light img
 import logo_light from './../../assets/img/logo/logo2.png';
-import user_light from './../../assets/img/light/user.png';
+import setting_light from './../../assets/img/light/setting.png';
+import arrow_light from './../../assets/img/light/arrow.png';
+
+import burger_menu_light from './../../assets/img/light/burger_menu.png';
 
 //
 
@@ -14,7 +19,7 @@ const Messenger = () => {
     let s = light
 
     return (
-        <main>
+        <main className={s.main}>
             <div className={s.menu}>
                 <div className={s.header}>
                     <div className={s.logo}>
@@ -29,24 +34,40 @@ const Messenger = () => {
                     </div>
                 </div>
                 <div className={s.chat}>
-                    <div className={s.user}>
-                        <img className={s.user_img} src={user_light} alt="#" />
-                        <div className={s.user_data}>
-                            <div className={s.user_activity}>
-                                <h1 className={s.user_name}>
-                                    Username
-                                </h1>
-                                <div className={s.active}/>
-                            </div>
-                            <p className={s.user_lastmsg}>
-                                Hello my dear friend. How are you? Maybe you need help?
-                            </p>
-                        </div>
-                    </div>
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
+                    <User />
                 </div>
             </div>
 
-            <div className={s.messenger}></div>
+            <div className={s.messenger}>
+                <div className={s.header}>
+                    <img className={s.menu_btn} src={arrow_light} alt="#" />
+                    <div className={s.info}>
+                        <h1 className={s.name}>Username</h1>
+                        <p className={s.description}>
+                            My name is Username
+                        </p>
+                        <p className={s.was_last_time}>
+                            Was active on April 28 at 16:25
+                        </p>
+                    </div>
+                    <img className={s.settings} src={setting_light} alt="#" />
+                </div>
+                
+            </div>
         </main>
     );
 }
