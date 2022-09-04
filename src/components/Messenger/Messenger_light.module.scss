@@ -1,18 +1,53 @@
+@mixin message($flex, $border) {
+    display: flex;
+    margin: 15px 0;
+
+    justify-content: $flex;
+    align-items: center;
+
+    .checked {
+        width: 10px;
+        height: 10px;
+    }
+
+    .time {
+        font-size: 14px;
+        font-weight: 300;
+        margin: 0 5px 0 3px;
+    }
+
+    .message {
+        padding: 8px 16px;
+        max-width: 40%;
+        background-color: #fff;
+
+        word-wrap: break-word;
+        word-break: break-all;
+
+        border-radius: $border;
+    }
+
+}
+
+@mixin w_h($width, $height) {
+    width: $width;
+    height: $height;
+}
+
 .main {
+    overflow: hidden;
+    height: 100vh;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: auto 3fr;
 }
 
 .menu {
     display: block;
     box-sizing: border-box;
-
     min-height: 100vh;
-    width: 100%;
+    max-width: 500px;
     min-width: 365px;
-
     padding: 10px;
-
     border-right: 1px solid #6C6B6A;
 
     .header {
@@ -89,7 +124,7 @@
     }
 
 
-    .chat {
+    .chats {
         max-height: 93.5vh;
         overflow-y: scroll;
 
@@ -188,24 +223,27 @@
         }
     }
 
-    .chat::-webkit-scrollbar {
+    .chats::-webkit-scrollbar {
         width: 5px;
-        background-color: #f9f9fd;
+        background-color: #F0F2F5;
     }
 
-    .chat::-webkit-scrollbar-thumb {
+    .chats::-webkit-scrollbar-thumb {
         border-radius: 10px;
         background-color: #000000;
     }
 
-    .chat::-webkit-scrollbar-track {
+    .chats::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
         border-radius: 10px;
-        background-color: #f9f9fd;
+        background-color: #F0F2F5;
     }
 }
 
 .messenger {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     min-height: 100vh;
     background-color: #F0F2F5;
 
@@ -217,13 +255,12 @@
         width: 100%;
         height: 80px;
 
-        padding: 0 30px;
+        padding: 0 40px;
 
         background-color: #fff;
 
         .menu_btn {
             width: 30px;
-            height: 30px;
 
             cursor: pointer;
             transition: .3s;
@@ -233,6 +270,18 @@
             transform: scale(0.9);
         }
 
+        .menu_btn_close {
+            width: 30px;
+            
+            cursor: pointer;
+            transition: .3s;
+        } .menu_btn_close:hover {
+            transition: .3s;
+            transform: scale(0.9);
+        }
+
+        
+
         .info {
             text-align: center;
 
@@ -241,7 +290,9 @@
 
                 cursor: pointer;
                 transition: 0.3s;
-            } .name:hover {
+            }
+
+            .name:hover {
                 color: rgb(90, 90, 90);
                 transition: 0.3s;
             }
@@ -265,10 +316,117 @@
             cursor: pointer;
             transition: .3s;
             transition-timing-function: ease-in-out;
-        } .settings:hover {
+        }
+
+        .settings:hover {
             transition: .3s;
             transform: scale(0.9) rotate(360deg);
         }
     }
-    
+
+    .messages {
+        padding: 0 40px;
+        flex: 1 1 auto;
+
+        .your_message {
+            @include message(end, 30px 30px 5px 30px)
+        }
+
+        .his_message {
+            @include message(start, 30px 30px 30px 5px)
+        }
+
+        .date {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .date_text {
+                font-weight: 300;
+                font-size: 16px;
+
+                padding: 10px 23px;
+                border-radius: 30px;
+
+                background-color: #fff;
+            }
+        }
+    }
+
+    .text_input {
+        display: flex;
+        margin: 20px 40px;
+
+        .me {
+            @include w_h(40px, 40px);
+            cursor: pointer;
+            margin: 0 16px 0 0;
+        }
+
+        .input {
+            display: block;
+            position: relative;
+            width: 100%;
+
+            .input_input {
+                overflow-y:hidden;
+                
+                position: absolute;
+                resize: none;
+
+                @include w_h(100%, 40px);
+
+                padding: 12.5px 160px 12.5px 18px;
+                border-radius: 20px;
+                font-size: 13px;
+            }
+
+            .input_btn {
+                display: flex;
+                align-items: center;
+                bottom: 0;
+
+                height: 40px;
+
+                position: absolute;
+                right: 2px;
+
+                .input_folder {
+                    margin: 0 8px;
+                    @include w_h(32px, 32px);
+                    cursor: pointer;
+                }
+
+                .input_smile {
+                    @include w_h(25px, 25px);
+                    cursor: pointer;
+                }
+
+                .input_gif {
+                    margin: 0 8px;
+                    @include w_h(25px, 25px);
+                    cursor: pointer;
+                }
+
+                .input_send {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    @include w_h(35px, 35px);
+
+                    background: #F8F8F8;
+                    border-radius: 30px;
+
+                    cursor: pointer;
+
+                    img {
+                        @include w_h(25px, 25px);
+                    }
+                }
+            }
+
+
+        }
+    }
 }
