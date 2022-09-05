@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { Spring, animated } from 'react-spring'
+import React, { useState } from 'react';
+import { Keyframes, useSpring, Spring, animated } from 'react-spring'
 import light from "./Messenger_light.module.scss"
 
 import User from './User/User';
@@ -14,41 +14,96 @@ import magnifying_glass from './../../assets/img/input/magnifying-glass.png';
 // light img
 import logo_light from './../../assets/img/logo/logo2.png';
 import setting_light from './../../assets/img/light/setting.png';
-import arrow_light from './../../assets/img/light/arrow.png';
-
-import burger_menu_light from './../../assets/img/light/burger_menu.png';
+import me_light from './../../assets/img/light/me.png';
 
 //
 
 const Messenger = () => {
     let s = light
 
-    const [menuIsOpen, setMenuIsOpen] = useState([true, arrow_light, "Messenger_light_menu_btn__YPBRP"])
+    // css animation
+    const [menuIsOpen, setMenuIsOpen] = useState(true)
+    const [classMenuIsOpen, setClassMenuIsOpen] = useState("Messenger_light_menu_btn__YPBRP")
+    const [logo, setLogo] = useState({
+        img: logo_light,
+        text: "Sendmymess",
+        style: { color: "#5F27B8" },
+        hover: false
+    })
+    const [inputSelected, setInputSelected] = useState({
+        selected: false
+    })
 
     let onClickBtn = () => {
-        if (menuIsOpen[0] === true) {
-            setMenuIsOpen([false, burger_menu_light, "Messenger_light_menu_btn_close__dn4Fq"])
+        if (menuIsOpen === true) {
+            setMenuIsOpen(false)
+            setClassMenuIsOpen("Messenger_light_menu_btn_close__dn4Fq")
         } else {
-            setMenuIsOpen([true, arrow_light, "Messenger_light_menu_btn__YPBRP"])
+            setMenuIsOpen(true)
+            setClassMenuIsOpen("Messenger_light_menu_btn__YPBRP")
         }
     }
+
+    const inputOnBlurStyles = useSpring({
+        form: {
+            opacity: inputSelected.selected ? 1 : 0,
+        }, 
+        to: {
+            opacity: inputSelected.selected ? 0 : 1,
+            width: inputSelected.selected ? "0px" : "90px",
+        }
+    })
+
+    let inputOnBlur = (e) => {
+        if (e.cancelable) {
+            setInputSelected({
+                selected: !inputSelected.selected
+            })
+        } else {
+            setInputSelected(true)
+        }
+    }
+
+    let onLogoHoverEnter = () => {
+        setTimeout(() => {
+            setLogo({
+                img: me_light,
+                text: "My username",
+                style: { color: "#000" },
+                hover: true
+            })
+        }, 150)
+    }
+    let onLogoHoverLeave = () => {
+        setTimeout(() => {
+            setLogo({
+                img: logo_light,
+                text: "Sendmymess",
+                style: { color: "#5F27B8" },
+                hover: false
+            })
+        }, 150)
+    }
+    // css animation
 
     return (
         <main className={s.main}>
             <Spring
-                reset={true}
+                immediate={logo.hover}
                 from={{ marginLeft: '0px' }}
                 to={{ marginLeft: '-500px' }}
-                reverse={menuIsOpen[0]}>
+                reverse={menuIsOpen}>
                 {styles => (<animated.div style={styles}>
                     <div className={s.menu}>
                         <div className={s.header}>
-                            <div className={s.logo}>
-                                <img className={s.logo_img} src={logo_light} alt="#" />
-                                <h1 className={s.logo_text}>Sendmymess</h1>
+                            <div onMouseLeave={onLogoHoverLeave} onMouseEnter={onLogoHoverEnter} className={s.logo}>
+                                <img className={s.logo_img} src={logo.img} alt="#" />
+                                <animated.div style={inputOnBlurStyles}>
+                                    <h1 style={logo.style} className={s.logo_text}>{logo.text}</h1>
+                                </animated.div>
                             </div>
                             <div className={s.input}>
-                                <input className={s.input_input} placeholder="Search" type="text" />
+                                <input onBlur={inputOnBlur} onClick={inputOnBlur} className={s.input_input} placeholder="Search" type="text" />
                                 <div className={s.input_btn}>
                                     <img className={s.input_search} src={magnifying_glass} alt="#" />
                                 </div>
@@ -77,7 +132,9 @@ const Messenger = () => {
 
             <div className={s.messenger}>
                 <div className={s.header}>
-                    <img onClick={onClickBtn} className={menuIsOpen[2]} src={menuIsOpen[1]} alt="#" />
+                    <div onClick={onClickBtn} className={classMenuIsOpen}>
+                        <span></span>
+                    </div>
                     <div className={s.info}>
                         <h1 className={s.name}>Username</h1>
                         <p className={s.description}>

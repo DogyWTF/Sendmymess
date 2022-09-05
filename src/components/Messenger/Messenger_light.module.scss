@@ -6,6 +6,7 @@
     align-items: center;
 
     .checked {
+        @include disable_selection;
         width: 10px;
         height: 10px;
     }
@@ -27,6 +28,13 @@
         border-radius: $border;
     }
 
+}
+
+@mixin disable_selection {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 @mixin w_h($width, $height) {
@@ -65,11 +73,15 @@
             cursor: pointer;
 
             .logo_img {
+                @include disable_selection;
+                transition: 0.3s;
                 width: 33px;
                 height: 33px;
             }
 
             .logo_text {
+                transition: 0.3s;
+                width: 90px;
                 font-size: 15px;
                 font-weight: 300;
                 margin: 0 0 0 8px;
@@ -77,9 +89,36 @@
             }
         }
 
+        .logo:hover {
+            .logo_img {
+                transition: 0.3s;
+                transform: rotate(360deg);
+            }
+
+            .logo_text {
+                @keyframes identifier {
+                    0% {
+                        letter-spacing: 0em;
+                    }
+
+                    50% {
+                        letter-spacing: -0.5em;
+                    }
+
+                    100% {
+                        letter-spacing: 0em;
+                    }
+                }
+
+                animation-name: identifier;
+                animation-duration: 0.3s;
+            }
+        }
+
         .input {
             position: relative;
             width: 100%;
+            min-width: 235px;
             height: 25px;
 
             .input_btn {
@@ -91,6 +130,7 @@
                 cursor: pointer;
 
                 .input_search {
+                    @include disable_selection;
                     margin-top: 5px;
                     width: 14px;
                     height: 14px;
@@ -142,6 +182,7 @@
             transition: 0.3s;
 
             .user_img {
+                @include disable_selection;
                 width: 50px;
                 height: 50px;
                 margin: 0 12px 0 0;
@@ -171,6 +212,7 @@
                     }
 
                     .missed_msg {
+                        @include disable_selection;
                         display: flex;
                         align-items: center;
                         justify-content: center;
@@ -259,28 +301,90 @@
 
         background-color: #fff;
 
-        .menu_btn {
-            width: 30px;
-
-            cursor: pointer;
-            transition: .3s;
-            transform: rotate(180deg);
-        } .menu_btn:hover {
-            transition: .3s;
-            transform: scale(0.9);
-        }
-
         .menu_btn_close {
             width: 30px;
-            
+            height: 30px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
             cursor: pointer;
             transition: .3s;
-        } .menu_btn_close:hover {
+        }
+
+        .menu_btn_close span,
+        .menu_btn_close span::before,
+        .menu_btn_close span::after {
+            position: absolute;
+            width: 30px;
+            height: 4px;
+            border-radius: 10px;
+
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000000;
+            transition: .3s;
+        }
+
+        .menu_btn_close span::after {
+            content: "";
+            top: 7px;
+        }
+
+        .menu_btn_close span::before {
+            content: "";
+            top: -3px;
+        }
+
+        .menu_btn_close:hover {
             transition: .3s;
             transform: scale(0.9);
         }
 
-        
+        .menu_btn {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            cursor: pointer;
+            transition: .3s;
+            transform: rotate(-45deg);
+        }
+
+        .menu_btn span,
+        .menu_btn span::before,
+        .menu_btn span::after {
+            position: absolute;
+            width: 22px;
+            height: 4px;
+            border-radius: 10px;
+
+            top: 4px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000000;
+            transition: .3s;
+        }
+
+        .menu_btn span::after {
+            content: "";
+            top: 11px;
+            left: 1px;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .menu_btn span::before {
+            content: "";
+            top: 11px;
+            left: 1px;
+            transform: translate(-50%, -50%) rotate(90deg);
+        }
+
+        .menu_btn:hover {
+            transition: .3s;
+            transform: scale(0.9) rotate(135deg);
+        }
 
         .info {
             text-align: center;
@@ -310,6 +414,7 @@
         }
 
         .settings {
+            @include disable_selection;
             width: 30px;
             height: 30px;
 
@@ -358,9 +463,16 @@
         margin: 20px 40px;
 
         .me {
+            @include disable_selection;
+            transition: .3s;
             @include w_h(40px, 40px);
             cursor: pointer;
             margin: 0 16px 0 0;
+        }
+
+        .me:hover {
+            transition: .3s;
+            transform: scale(0.9);
         }
 
         .input {
@@ -369,8 +481,8 @@
             width: 100%;
 
             .input_input {
-                overflow-y:hidden;
-                
+                overflow-y: hidden;
+
                 position: absolute;
                 resize: none;
 
@@ -391,28 +503,55 @@
                 position: absolute;
                 right: 2px;
 
-                .input_folder {
-                    margin: 0 8px;
-                    @include w_h(32px, 32px);
-                    cursor: pointer;
+                .input_hide {
+                    @include disable_selection;
+                    display: flex;
+                    align-items: center;
+
+                    .input_folder {
+                        margin: 0 8px;
+                        transition: .3s;
+                        @include w_h(32px, 32px);
+                        cursor: pointer;
+                    }
+
+                    .input_folder:hover {
+                        transition: .3s;
+                        transform: scale(0.9);
+                    }
+
+                    .input_smile {
+                        transition: .3s;
+                        @include w_h(25px, 25px);
+                        cursor: pointer;
+                    }
+
+                    .input_smile:hover {
+                        transition: .3s;
+                        transform: scale(0.9);
+                    }
+
+                    .input_gif {
+                        transition: .3s;
+                        margin: 0 8px;
+                        @include w_h(25px, 25px);
+                        cursor: pointer;
+                    }
+
+                    .input_gif:hover {
+                        transition: .3s;
+                        transform: scale(0.9);
+                    }
                 }
 
-                .input_smile {
-                    @include w_h(25px, 25px);
-                    cursor: pointer;
-                }
 
-                .input_gif {
-                    margin: 0 8px;
-                    @include w_h(25px, 25px);
-                    cursor: pointer;
-                }
 
                 .input_send {
+                    @include disable_selection;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-
+                    transition: .3s;
                     @include w_h(35px, 35px);
 
                     background: #F8F8F8;
@@ -424,9 +563,12 @@
                         @include w_h(25px, 25px);
                     }
                 }
+
+                .input_send:hover {
+                    transition: .3s;
+                    background: #e0e0e0;
+                }
             }
-
-
         }
     }
 }
