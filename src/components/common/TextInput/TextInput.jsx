@@ -38,7 +38,7 @@ const TextInput = () => {
                     onHeightChange={(height) => setHeight(height)}
                     placeholder='Write a comment...' className={s.input_input} />
                 <div className={s.input_btn}>
-                    <animated.div style={styles} className={s.input_hide} >
+                    <animated.div disabled={hideButtons} style={styles} className={s.input_hide} >
                             <img className={s.input_folder} src={folder_light} alt="#" />
                             <img className={s.input_smile} src={smile_light} alt="#" />
                             <img className={s.input_gif} src={gif_light} alt="#" />

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Keyframes, useSpring, Spring, animated } from 'react-spring'
+import { useSpring, Spring, animated } from 'react-spring'
+import { NavLink } from "react-router-dom";
+
 import light from "./Messenger_light.module.scss"
 
 import User from './User/User';
-import YourMessage from './Message/YourMessage';
-import HisMessage from './Message/HisMessage'
+import Message from './Message/Message'
 import Date from './Message/Date';
 import TextInput from '../common/TextInput/TextInput';
 
@@ -18,7 +19,7 @@ import me_light from './../../assets/img/light/me.png';
 
 //
 
-const Messenger = () => {
+const Messenger = ({ chats, messages }) => {
     let s = light
 
     // css animation
@@ -47,7 +48,7 @@ const Messenger = () => {
     const inputOnBlurStyles = useSpring({
         form: {
             opacity: inputSelected.selected ? 1 : 0,
-        }, 
+        },
         to: {
             opacity: inputSelected.selected ? 0 : 1,
             width: inputSelected.selected ? "0px" : "90px",
@@ -110,21 +111,14 @@ const Messenger = () => {
                             </div>
                         </div>
                         <div className={s.chats}>
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
-                            <User />
+                            {chats.map(u => (
+                                <NavLink key={u.id} to={'/' + u.id}>
+                                    <User id={u.id} key={u.id} username={u.username}
+                                        lastActive={u.lastActive} scroll={u.scroll}
+                                        missedMsg={u.missedMsg} lastMsg={u.lastMsg}
+                                        avatar={u.avatar} />
+                                </NavLink>
+                            ))}
                         </div>
                     </div>
                 </animated.div>)}
@@ -147,11 +141,17 @@ const Messenger = () => {
                     <img className={s.settings} src={setting_light} alt="#" />
                 </div>
                 <div className={s.messages}>
-                    <YourMessage message={"Hi my friend."} />
-                    <YourMessage message={"Do you like the new messenger?"} />
-                    <YourMessage message={"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure commodi voluptas vel cum esse qui labore. Dolorum voluptatem quod nostrum, quaerat beatae iure esse molestias quasi deleniti, vero sapiente obcaecati."} />
-                    <Date date={"April 28"} />
-                    <HisMessage message={"Hello my dear friend. How are you? Maybe you need help?"} />
+                    {messages.map(m => {
+                        if (!m.date) {
+                            if (m.isMyMessage) {
+                                return <Message isMyMessage={m.isMyMessage} key={m.id} styles={s.your_message} revised={m.revised} time={m.time} message={m.message} />
+                            } else {
+                                return <Message key={m.id} styles={s.his_message} revised={m.revised} time={m.time} message={m.message} />
+                            }
+                        } else {
+                            return <Date key={m.id} date={m.date} />
+                        }
+                    })}
                 </div>
                 <TextInput />
             </div>

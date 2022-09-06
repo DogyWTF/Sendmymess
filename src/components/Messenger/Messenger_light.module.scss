@@ -1,5 +1,6 @@
-@mixin message($flex, $border) {
+@mixin message($flex, $border, $fd) {
     display: flex;
+    flex-direction: $fd;
     margin: 15px 0;
 
     justify-content: $flex;
@@ -22,8 +23,7 @@
         max-width: 40%;
         background-color: #fff;
 
-        word-wrap: break-word;
-        word-break: break-all;
+        word-break: break;
 
         border-radius: $border;
     }
@@ -42,6 +42,26 @@
     height: $height;
 }
 
+@mixin scroll_bar($class) {
+    #{$class}::-webkit-scrollbar {
+        width: 5px;
+        background-color: #F0F2F5;
+    }
+
+    #{$class}::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #000000;
+    }
+
+    #{$class}::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background-color: #F0F2F5;
+    }
+}
+
+// mixins
+
 .main {
     overflow: hidden;
     height: 100vh;
@@ -55,7 +75,7 @@
     min-height: 100vh;
     max-width: 500px;
     min-width: 365px;
-    padding: 10px;
+    padding: 10px 10px 5px 10px;
     border-right: 1px solid #6C6B6A;
 
     .header {
@@ -130,12 +150,18 @@
                 cursor: pointer;
 
                 .input_search {
+                    transition: .3s;
                     @include disable_selection;
                     margin-top: 5px;
                     width: 14px;
                     height: 14px;
                     z-index: 5;
                     background-color: #fff;
+                }
+            } .input_btn:hover {
+                .input_search {
+                    transition: .3s;
+                    transform: scale(1.2);
                 }
             }
 
@@ -166,10 +192,12 @@
 
     .chats {
         max-height: 93.5vh;
-        overflow-y: scroll;
+        padding:  0 0 5px 0;
+        overflow-y: auto;
 
         .user {
             display: flex;
+            color: #000;
             width: 100%;
             height: 85px;
             align-items: center;
@@ -198,13 +226,14 @@
 
                     .user_name {
                         font-size: 20px;
+                        margin: 0 4px 0 0;
                     }
 
                     .active {
                         display: block;
                         width: 8px;
                         height: 8px;
-                        margin: 0 4px;
+                        margin: 0 4px 0 0;
 
                         background-color: #000;
 
@@ -263,23 +292,8 @@
                 }
             }
         }
-    }
+    } @include scroll_bar('.chats');
 
-    .chats::-webkit-scrollbar {
-        width: 5px;
-        background-color: #F0F2F5;
-    }
-
-    .chats::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background-color: #000000;
-    }
-
-    .chats::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
-        border-radius: 10px;
-        background-color: #F0F2F5;
-    }
 }
 
 .messenger {
@@ -297,7 +311,7 @@
         width: 100%;
         height: 80px;
 
-        padding: 0 40px;
+        padding: 8px 40px;
 
         background-color: #fff;
 
@@ -383,7 +397,7 @@
 
         .menu_btn:hover {
             transition: .3s;
-            transform: scale(0.9) rotate(135deg);
+            transform: scale(0.9) rotate(-45deg);
         }
 
         .info {
@@ -430,15 +444,17 @@
     }
 
     .messages {
-        padding: 0 40px;
+        transition: .3s;
+        padding: 0 40px 0 40px;
+        overflow: auto;
         flex: 1 1 auto;
 
         .your_message {
-            @include message(end, 30px 30px 5px 30px)
+            @include message(end, 30px 30px 5px 30px, row-reverse)
         }
 
         .his_message {
-            @include message(start, 30px 30px 30px 5px)
+            @include message(start, 30px 30px 30px 5px, row)
         }
 
         .date {
@@ -456,7 +472,7 @@
                 background-color: #fff;
             }
         }
-    }
+    } @include scroll_bar('.messages');
 
     .text_input {
         display: flex;
@@ -543,8 +559,6 @@
                         transform: scale(0.9);
                     }
                 }
-
-
 
                 .input_send {
                     @include disable_selection;

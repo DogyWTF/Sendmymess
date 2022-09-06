@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import light from ".././Messenger_light.module.scss"
 
 // light img
 import user_light from '.././../../assets/img/light/user.png';
 
-// dark img
-
-import user_dark from '.././../../assets/img/dark/user.png';
-
-const User = () => {
+const User = ({username, avatar, missedMsg, lastMsg, lastActive, scroll }) => {
     let s = light
+    
+    if(avatar === null) {
+        avatar = user_light
+    }
 
     return (
         <div className={`${s.user}`}>
-            <img className={s.user_img} src={user_light} alt="#" />
+            <img className={s.user_img} src={avatar} alt="#" />
             <div className={s.user_data}>
                 <div className={s.user_activity}>
-                    <h1 className={s.user_name}>Username</h1>
-                    <div className={s.active} />
+                    <h1 className={s.user_name}>{username}</h1>
+                    {lastActive === true && <div className={s.active} />}
+                    {missedMsg && 
                     <div className={s.missed_msg}>
-                        <p>+99</p>
-                    </div>
+                        <p>{missedMsg}</p>
+                    </div>}
                 </div>
                 <p className={s.user_lastmsg}>
-                    Hello my dear friend. How are you? Maybe you need help?
+                    {lastMsg || "You have no last message"}
                 </p>
             </div>
         </div>

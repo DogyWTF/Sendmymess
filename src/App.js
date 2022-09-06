@@ -1,7 +1,8 @@
 import React, { Component, lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
+import store from "./redux/redux-store.js"
 import MessengerContainer from './components/Messenger/MessengerContainer';
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
     <div>
       <Suspense fallback={<div>Loading</div>}>
         <Routes>
+          <Route path="/:userId" element={<MessengerContainer />} />
           <Route path="/" element={<MessengerContainer />} />
         </Routes>
       </Suspense>
@@ -20,7 +22,9 @@ class AppContainer extends Component {
   render() {
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </BrowserRouter>
     );
   }
