@@ -261,9 +261,7 @@
                     font-size: 10px;
                 }
             }
-        }
-
-        .user:hover {
+        }.user:hover {
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
             transition: 0.3s;
         }
@@ -271,26 +269,76 @@
         .userActive {
             background-color: #000;
 
+            display: flex;
+            color: #000;
+            width: 100%;
+            height: 85px;
+            align-items: center;
+
+            padding: 0 8px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+            transition: 0.3s;
+
+            .user_img {
+                @include disable_selection;
+                width: 50px;
+                height: 50px;
+                margin: 0 12px 0 0;
+
+                border-radius: 50px;
+            }
+
             .user_data {
+
                 .user_activity {
+                    display: flex;
+                    align-items: center;
+
                     .user_name {
                         color: #fff;
+                        font-size: 20px;
+                        margin: 0 4px 0 0;
                     }
 
                     .active {
+                        display: block;
+                        width: 8px;
+                        height: 8px;
+                        margin: 0 4px 0 0;
+
                         background-color: rgb(255, 255, 255);
+
+                        border-radius: 8px;
                     }
 
                     .missed_msg {
+                        @include disable_selection;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        width: 20px;
+                        height: 10px;
+
                         border: 1px solid #ffffff;
                         color: #fff;
+                        border-radius: 30px;
+
+                        font-size: 8px;
                     }
                 }
 
                 .user_lastmsg {
+                    font-weight: 300;
+                    font-size: 10px;
                     color: #fff;
                 }
             }
+        }.userActive:hover {
+            background-color: rgb(36, 36, 36);
         }
     } @include scroll_bar('.chats');
 
@@ -425,6 +473,18 @@
                 font-weight: 200;
                 font-size: 10px;
             }
+
+            .active_now {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 10px;
+                div {
+                    @include w_h(5px, 5px);
+                    background-color:rgb(0, 0, 0);
+                    border-radius: 5px;
+                }
+            }
         }
 
         .settings {
@@ -446,7 +506,8 @@
     .messages {
         transition: .3s;
         padding: 0 40px 0 40px;
-        overflow: auto;
+        overflow-y:auto;
+        overflow-x:hidden;
         flex: 1 1 auto;
 
         .your_message {

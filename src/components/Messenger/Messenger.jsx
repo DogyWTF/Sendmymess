@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSpring, Spring, animated } from 'react-spring'
 import { NavLink } from "react-router-dom";
 
@@ -19,8 +19,14 @@ import me_light from './../../assets/img/light/me.png';
 
 //
 
-const Messenger = ({ chats, messages }) => {
+const Messenger = ({ chats, chatActive, messages, getMessages }) => {
     let s = light
+
+    let [chat, setChat] = useState("")
+
+    useEffect(() => {
+        setChat(chats[chatActive - 1])
+    }, [chatActive])
 
     // css animation
     const [menuIsOpen, setMenuIsOpen] = useState(true)
@@ -111,14 +117,25 @@ const Messenger = ({ chats, messages }) => {
                             </div>
                         </div>
                         <div className={s.chats}>
-                            {chats.map(u => (
-                                <NavLink key={u.id} to={'/' + u.id}>
-                                    <User id={u.id} key={u.id} username={u.username}
-                                        lastActive={u.lastActive} scroll={u.scroll}
-                                        missedMsg={u.missedMsg} lastMsg={u.lastMsg}
-                                        avatar={u.avatar} />
-                                </NavLink>
-                            ))}
+                            {chats.map(u => {
+                                if (u.id === chatActive) {
+                                    return (<NavLink key={u.id} to={'/' + u.id}>
+                                        <User id={u.id} key={u.id} username={u.username}
+                                            lastActive={u.lastActive} scroll={u.scroll}
+                                            missedMsg={u.missedMsg} lastMsg={u.lastMsg}
+                                            getMessages={getMessages} avatar={u.avatar}
+                                            style={s.userActive} />
+                                    </NavLink>)
+                                } else {
+                                    return (<NavLink key={u.id} to={'/' + u.id}>
+                                        <User id={u.id} key={u.id} username={u.username}
+                                            lastActive={u.lastActive} scroll={u.scroll}
+                                            missedMsg={u.missedMsg} lastMsg={u.lastMsg}
+                                            getMessages={getMessages} avatar={u.avatar}
+                                            style={s.user} />
+                                    </NavLink>)
+                                }
+                            })}
                         </div>
                     </div>
                 </animated.div>)}
@@ -130,13 +147,19 @@ const Messenger = ({ chats, messages }) => {
                         <span></span>
                     </div>
                     <div className={s.info}>
-                        <h1 className={s.name}>Username</h1>
+                        <h1 className={s.name}>{!!chat ? chat.username : "..."}</h1>
                         <p className={s.description}>
-                            My name is Username
+                            {!!chat ? chat.description : "..."}
                         </p>
-                        <p className={s.was_last_time}>
-                            Was active on April 28 at 16:25
-                        </p>
+                        {(!!chat && chat.lastActive === true) 
+                            ? <div className={s.active_now}>
+                                <div></div>
+                                <p>Active</p>
+                            </div>
+                            : (!!chat) 
+                                ? <p className={s.was_last_time}>{chat.lastActive}</p> 
+                                : <p className={s.was_last_time}>...</p> 
+                        }
                     </div>
                     <img className={s.settings} src={setting_light} alt="#" />
                 </div>
