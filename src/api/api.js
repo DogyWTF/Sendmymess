@@ -7,5 +7,11 @@ export const usersAPI = {
     },
     getMsg(userId) {
         return messages[userId - 1]
+    },
+    addMessage(userId = 1, msg, date) {
+        return messages[userId - 1].push(
+            { id: messages[userId - 1].length+1, isMyMessage: true, 
+            time: date, revised: false, message: msg }
+        )
     }
 }

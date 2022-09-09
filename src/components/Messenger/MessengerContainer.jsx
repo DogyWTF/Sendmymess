@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     useParams,
 } from "react-router-dom";
-import { getUsers, getMessages } from '../../redux/users/users-reducer';
+import { getUsers, getMessages, addMessage } from '../../redux/users/users-reducer';
 
 import Messenger from './Messenger';
 
@@ -27,7 +27,8 @@ class MessengerContainer extends Component {
     render() {
         return (
             <Messenger messages={this.props.messages} chats={this.props.chats} 
-            getMessages={this.props.getMessages} chatActive={this.props.chatActive}/>
+            getMessages={this.props.getMessages} addMessage={this.props.addMessage} 
+            chatActive={this.props.chatActive}/>
         );
     }
 }
@@ -35,7 +36,7 @@ class MessengerContainer extends Component {
 let mapStateToProps = (state) => ({
     chats: state.users.chats,
     messages: state.users.messages,
-    chatActive: state.users.chatActive
+    chatActive: state.users.chatActive,
 })
 
-export default connect(mapStateToProps, { getUsers, getMessages })(withRouter(MessengerContainer))
+export default connect(mapStateToProps, { getUsers, getMessages, addMessage })(withRouter(MessengerContainer))

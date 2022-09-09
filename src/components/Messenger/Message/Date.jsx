@@ -16,7 +16,6 @@ const Date = ({ date }) => {
         to: {
             opacity: 1,
         },
-        reset: true,
     })
 
     return (

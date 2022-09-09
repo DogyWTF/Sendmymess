@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { useSpring, animated } from 'react-spring'
 import light from ".././Messenger_light.module.scss"
 
@@ -7,7 +7,7 @@ import checked_light from '.././../../assets/img/light/checked.png';
 
 // dark img
 
-const Message = ({message, styles, revised, time, isMyMessage}) => {
+const Message = ({ message, styles, revised, time, isMyMessage, id }) => {
     let s = light
 
     const style = useSpring({
@@ -17,13 +17,12 @@ const Message = ({message, styles, revised, time, isMyMessage}) => {
         to: {
             margin: "0px 0px"
         },
-        reset: true,
     })
-    
+
     return (
         <animated.div style={style}>
             <div className={styles}>
-                <div style={{backgroundColor: isMyMessage ? "#6C6B6A": "#fff", color:  isMyMessage ? "#fff": "#000"}} className={s.message}>
+                <div style={{ backgroundColor: isMyMessage ? "#6C6B6A" : "#fff", color: isMyMessage ? "#fff" : "#000" }} className={s.message}>
                     {message}
                 </div>
                 <p className={s.time}>{time}</p>

@@ -19,7 +19,8 @@ import me_light from './../../assets/img/light/me.png';
 
 //
 
-const Messenger = ({ chats, chatActive, messages, getMessages }) => {
+const Messenger = ({ chats, chatActive, messages,
+    getMessages, addMessage }) => {
     let s = light
 
     let [chat, setChat] = useState("")
@@ -167,16 +168,16 @@ const Messenger = ({ chats, chatActive, messages, getMessages }) => {
                     {messages.map(m => {
                         if (!m.date) {
                             if (m.isMyMessage) {
-                                return <Message isMyMessage={m.isMyMessage} key={m.id} styles={s.your_message} revised={m.revised} time={m.time} message={m.message} />
+                                return <Message isMyMessage={m.isMyMessage} key={m.id} id={m.id} styles={s.your_message} revised={m.revised} time={m.time} message={m.message} />
                             } else {
-                                return <Message key={m.id} styles={s.his_message} revised={m.revised} time={m.time} message={m.message} />
+                                return <Message key={m.id} id={m.id} styles={s.his_message} revised={m.revised} time={m.time} message={m.message} />
                             }
                         } else {
                             return <Date key={m.id} date={m.date} />
                         }
                     })}
                 </div>
-                <TextInput />
+                <TextInput getMessages={getMessages} chatActive={chatActive} addMessage={addMessage} />
             </div>
         </main>
     );

@@ -18,14 +18,14 @@ export let messages = [
 ], [
     { id: 1, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
 ], [
-    { id: 1, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
+    { id: 2, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
 ], [
-    { id: 1, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
+    { id: 3, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
 ], [
-    { id: 1, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
+    { id: 4, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
 ], [
     
 ], [
-    { id: 1, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
+    { id: 10, isMyMessage: true, time: "11:20", revised: true, message: "Hello my dear friend. How are you? Maybe you need help" },
 ]
 ]
