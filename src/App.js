@@ -1,11 +1,11 @@
-import React, { Component, lazy, Suspense } from 'react';
+import React, { Component, lazy, Suspense, useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import store from "./redux/redux-store.js"
 import MessengerContainer from './components/Messenger/MessengerContainer';
 
-const App = () => {
+const App = (props) => {
   return (
     <div>
       <Suspense fallback={<div>Loading</div>}>
@@ -23,7 +23,7 @@ class AppContainer extends Component {
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Provider store={store}>
-          <App />
+          <App store={store}/>
         </Provider>
       </BrowserRouter>
     );

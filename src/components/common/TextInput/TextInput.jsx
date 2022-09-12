@@ -13,8 +13,11 @@ import smile_light from '.././../../assets/img/input/smile.png';
 import gif_light from '.././../../assets/img/input/gif.png';
 import send_light from '.././../../assets/img/input/send.png';
 
-const TextInput = ({ chatActive, addMessage, getMessages }) => {
+const TextInput = ({ chatActive, addMessage, changeMessage, message }) => {
     let s = light
+
+    const now = new Date();
+    let date = `${now.getHours()}:${now.getMinutes()}`
 
     let [height, setHeight] = useState(0)
     let [hideButtons, setHideButtons] = useState(false)
@@ -31,40 +34,45 @@ const TextInput = ({ chatActive, addMessage, getMessages }) => {
         }
     }
 
+    if (now.getMinutes() < 10) {
+        date = `${now.getHours()}:0${now.getMinutes()}`
+    }
+
     const validationSchemaLoginForm = Yup.object().shape({
         message: Yup.string()
-            .max(1500, "Must be shorter than 1500 characters")
+            .max(3500, "Must be shorter than 3500 characters")
     });
 
     return (
         <Formik
-            initialValues={{
-                message: ""
-            }}
+            initialValues={{ message: message }}
+            enableReinitialize={true}
             validationSchema={validationSchemaLoginForm}
             onSubmit={(values, { setSubmitting, setStatus }) => {
                 setTimeout(() => {
-                    console.log(values)
-                    const now = new Date();
                     setSubmitting(true);
-                    addMessage(chatActive, values.message,
-                        `${now.getHours()}:${now.getMinutes()}`, setStatus)
-                    setSubmitting(false);
+                    addMessage(chatActive, values.message, date, setStatus)
                     values.message = ""
-                    getMessages()
-                }, 500)
+                    setSubmitting(false);
+                }, 1)
             }}>
-            {({ isSubmitting, status }) => (
+            {({ isSubmitting, handleSubmit, status, values }) => (
                 <div>
-                    <ErrorMessage name={"message"} />
+                    <p className={s.err_msg} style={{margin: `0px 0px ${height-38}px 112px`}}>
+                        <ErrorMessage name={"message"}  />
+                    </p>
                     <Form className={s.text_input}>
                         <img className={s.me} src={me_light} alt="#" />
                         <div className={s.input}>
                             <Field
-                                name="message"
-                                type="text">
+                                name={"message"}
+                                type={"text"}>
                                 {({ field, meta: { touched, error } }) => {
-                                    return (<ReactTextareaAutosize {...field}
+                                    return <ReactTextareaAutosize {...field}
+                                        value={message}
+                                        onChange={e => {
+                                            changeMessage(e.target.value)
+                                        }}
                                         onBlur={inputOnBlur} onClick={inputOnBlur}
                                         className={touched && error
                                             ? `${s.input_input} ${s.inputError}`
@@ -72,9 +80,9 @@ const TextInput = ({ chatActive, addMessage, getMessages }) => {
                                         style={{
                                             margin: `${-height + 40}px 0px`,
                                             padding: hideButtons ? "12.5px 40px 12.5px 18px" : "12.5px 160px 12.5px 18px",
-                                        }} maxLength="1500"
+                                        }} maxLength="3501" maxRows={10}
                                         onHeightChange={(height) => setHeight(height)}
-                                        placeholder='Write a comment...' />)
+                                        placeholder='Write a comment...' />
                                 }}
                             </Field>
                             <div className={s.input_btn}>
@@ -94,7 +102,6 @@ const TextInput = ({ chatActive, addMessage, getMessages }) => {
 
             )}
         </Formik>
-
     );
 }
 

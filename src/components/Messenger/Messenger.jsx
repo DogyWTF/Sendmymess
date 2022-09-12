@@ -5,22 +5,19 @@ import { NavLink } from "react-router-dom";
 import light from "./Messenger_light.module.scss"
 
 import User from './User/User';
-import Message from './Message/Message'
-import Date from './Message/Date';
-import TextInput from '../common/TextInput/TextInput';
 
 // img
 import magnifying_glass from './../../assets/img/input/magnifying-glass.png';
 
 // light img
 import logo_light from './../../assets/img/logo/logo2.png';
-import setting_light from './../../assets/img/light/setting.png';
 import me_light from './../../assets/img/light/me.png';
+import Messages from './Messages';
 
 //
 
-const Messenger = ({ chats, chatActive, messages,
-    getMessages, addMessage }) => {
+const Messenger = ({ chats, chatActive, messages, message,
+    getMessages, addMessage, getUsers, changeMessage }) => {
     let s = light
 
     let [chat, setChat] = useState("")
@@ -94,6 +91,14 @@ const Messenger = ({ chats, chatActive, messages,
     }
     // css animation
 
+    if(!!chat && chat.username.length > 25) {
+        chat.username = `${chat.username.substr(0, 25)}...`
+    }
+
+    if(!!chat && chat.description.length > 40) {
+        chat.description = `${chat.description.substr(0, 40)}...`
+    }
+
     return (
         <main className={s.main}>
             <Spring
@@ -125,7 +130,7 @@ const Messenger = ({ chats, chatActive, messages,
                                             lastActive={u.lastActive} scroll={u.scroll}
                                             missedMsg={u.missedMsg} lastMsg={u.lastMsg}
                                             getMessages={getMessages} avatar={u.avatar}
-                                            style={s.userActive} />
+                                            style={s.userActive} chatActive={chatActive} />
                                     </NavLink>)
                                 } else {
                                     return (<NavLink key={u.id} to={'/' + u.id}>
@@ -133,7 +138,7 @@ const Messenger = ({ chats, chatActive, messages,
                                             lastActive={u.lastActive} scroll={u.scroll}
                                             missedMsg={u.missedMsg} lastMsg={u.lastMsg}
                                             getMessages={getMessages} avatar={u.avatar}
-                                            style={s.user} />
+                                            style={s.user} chatActive={chatActive} />
                                     </NavLink>)
                                 }
                             })}
@@ -141,44 +146,25 @@ const Messenger = ({ chats, chatActive, messages,
                     </div>
                 </animated.div>)}
             </Spring>
-
-            <div className={s.messenger}>
-                <div className={s.header}>
-                    <div onClick={onClickBtn} className={classMenuIsOpen}>
-                        <span></span>
+            {chatActive === null
+                ? <div className={`${s.messenger} ${s.not_active_chat}`}>
+                    <div className={s.preloader}>
+                        <p>S</p>
+                        <p>e</p>
+                        <p>n</p>
+                        <p>d</p>
+                        <p>m</p>
+                        <p>y</p>
+                        <p>m</p>
+                        <p>e</p>
+                        <p>s</p>
+                        <p>s</p>
                     </div>
-                    <div className={s.info}>
-                        <h1 className={s.name}>{!!chat ? chat.username : "..."}</h1>
-                        <p className={s.description}>
-                            {!!chat ? chat.description : "..."}
-                        </p>
-                        {(!!chat && chat.lastActive === true) 
-                            ? <div className={s.active_now}>
-                                <div></div>
-                                <p>Active</p>
-                            </div>
-                            : (!!chat) 
-                                ? <p className={s.was_last_time}>{chat.lastActive}</p> 
-                                : <p className={s.was_last_time}>...</p> 
-                        }
-                    </div>
-                    <img className={s.settings} src={setting_light} alt="#" />
+                    <p className={s.not_active_chat_text}>Select a chat to start chatting</p>
                 </div>
-                <div className={s.messages}>
-                    {messages.map(m => {
-                        if (!m.date) {
-                            if (m.isMyMessage) {
-                                return <Message isMyMessage={m.isMyMessage} key={m.id} id={m.id} styles={s.your_message} revised={m.revised} time={m.time} message={m.message} />
-                            } else {
-                                return <Message key={m.id} id={m.id} styles={s.his_message} revised={m.revised} time={m.time} message={m.message} />
-                            }
-                        } else {
-                            return <Date key={m.id} date={m.date} />
-                        }
-                    })}
-                </div>
-                <TextInput getMessages={getMessages} chatActive={chatActive} addMessage={addMessage} />
-            </div>
+                : <Messages chatActive={chatActive} messages={messages} message={message} 
+                getMessages={getMessages} addMessage={addMessage} getUsers={getUsers} 
+                changeMessage={changeMessage} chats={chats} />}
         </main>
     );
 }

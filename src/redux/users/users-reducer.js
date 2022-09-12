@@ -3,7 +3,7 @@ import { usersAPI } from "../../api/api";
 const SET_USERS = "SET_USERS";
 const SET_MESSAGES = "SET_MESSAGES"
 const SET_CHAT_ACTIVE = "SET_CHAT_ACTIVE"
-const SET_INPUT_MSG = "SET_INPUT_MSG"
+const SET_MESSAGE = "SET_MESSAGE"
 
 let initalialState = {
     chats: [],
@@ -29,17 +29,17 @@ const usersReducer = (state = initalialState, action) => {
             }
         }
 
+        case SET_MESSAGE: {
+            return {
+                ...state,
+                inputMsg: action.text
+            }
+        }
+
         case SET_CHAT_ACTIVE: {
             return {
                 ...state,
                 chatActive: action.userId
-            }
-        }
-
-        case SET_INPUT_MSG: {console.log('ddd')
-            return {
-                ...state,
-                inputMsg: action.text
             }
         }
 
@@ -51,7 +51,7 @@ const usersReducer = (state = initalialState, action) => {
 export const setUsers = (chats) => ({ type: SET_USERS, chats })
 export const setMessages = (msg) => ({ type: SET_MESSAGES, msg })
 export const setChatActive = (userId) => ({ type: SET_CHAT_ACTIVE, userId })
-export const setinputMsg = (text) => ({ type: SET_INPUT_MSG, text })
+export const setMessage = (text) => ({ type: SET_MESSAGE, text })
 
 export const getMessages = (userId) => async (dispatch) => {
     let response = await usersAPI.getMsg(userId)
@@ -64,13 +64,16 @@ export const getUsers = () => async (dispatch) => {
     dispatch(setUsers(response))
 };
 
-export const addMessage = (userId, msg, date, setStatus) => async (dispatch) => {
-    await usersAPI.addMessage(userId, msg, date)
-    dispatch(getMessages(userId))
+export const changeMessage = (text) => async (dispatch) => {
+    dispatch(setMessage(text))
 };
 
-export const inputMsgChange = (text) => async (dispatch) => {
-    dispatch(setinputMsg(text))
+export const addMessage = (userId, msg, date, state) => async (dispatch) => {
+    await usersAPI.addMessage(userId, msg, date)
+    await usersAPI.addLastMsgToChat(userId, msg)
+    dispatch(setMessage(""))
+    dispatch(getMessages(userId))
+    dispatch(getUsers())
 };
 
 export default usersReducer;
