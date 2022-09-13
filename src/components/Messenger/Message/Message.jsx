@@ -20,15 +20,13 @@ const Message = ({ message, styles, revised, time, isMyMessage, id }) => {
     })
 
     return (
-        <animated.div style={style}>
-            <div className={styles}>
-                <div style={{ backgroundColor: isMyMessage ? "#6C6B6A" : "#fff", color: isMyMessage ? "#fff" : "#000", textAlign: isMyMessage ? "right" : "left" }} className={s.message}>
-                    {message}
-                </div>
-                <p className={s.time}>{time}</p>
-                {revised && <img className={s.checked} src={checked_light} alt="#" />}
+        <div className={styles}>
+            <div style={{ backgroundColor: isMyMessage ? "#6C6B6A" : "#fff", color: isMyMessage ? "#fff" : "#000", textAlign: isMyMessage ? "right" : "left" }} className={s.message}>
+                {message}
             </div>
-        </animated.div>
+            <p className={s.time}>{time}</p>
+            {revised && <img className={s.checked} src={checked_light} alt="#" />}
+        </div>
     );
 }
 

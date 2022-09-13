@@ -17,18 +17,11 @@ import Messages from './Messages';
 //
 
 const Messenger = ({ chats, chatActive, messages, message,
-    getMessages, addMessage, getUsers, changeMessage }) => {
+    getMessages, addMessage, getUsers, changeMessage, scroll, getScroll, 
+    setScroll, closeOpenChat, setCloseOpenChat }) => {
     let s = light
 
-    let [chat, setChat] = useState("")
-
-    useEffect(() => {
-        setChat(chats[chatActive - 1])
-    }, [chatActive])
-
     // css animation
-    const [menuIsOpen, setMenuIsOpen] = useState(true)
-    const [classMenuIsOpen, setClassMenuIsOpen] = useState("Messenger_light_menu_btn__YPBRP")
     const [logo, setLogo] = useState({
         img: logo_light,
         text: "Sendmymess",
@@ -38,16 +31,6 @@ const Messenger = ({ chats, chatActive, messages, message,
     const [inputSelected, setInputSelected] = useState({
         selected: false
     })
-
-    let onClickBtn = () => {
-        if (menuIsOpen === true) {
-            setMenuIsOpen(false)
-            setClassMenuIsOpen("Messenger_light_menu_btn_close__dn4Fq")
-        } else {
-            setMenuIsOpen(true)
-            setClassMenuIsOpen("Messenger_light_menu_btn__YPBRP")
-        }
-    }
 
     const inputOnBlurStyles = useSpring({
         form: {
@@ -91,21 +74,13 @@ const Messenger = ({ chats, chatActive, messages, message,
     }
     // css animation
 
-    if(!!chat && chat.username.length > 25) {
-        chat.username = `${chat.username.substr(0, 25)}...`
-    }
-
-    if(!!chat && chat.description.length > 40) {
-        chat.description = `${chat.description.substr(0, 40)}...`
-    }
-
     return (
         <main className={s.main}>
             <Spring
                 immediate={logo.hover}
                 from={{ marginLeft: '0px' }}
                 to={{ marginLeft: '-500px' }}
-                reverse={menuIsOpen}>
+                reverse={closeOpenChat}>
                 {styles => (<animated.div style={styles}>
                     <div className={s.menu}>
                         <div className={s.header}>
@@ -164,7 +139,9 @@ const Messenger = ({ chats, chatActive, messages, message,
                 </div>
                 : <Messages chatActive={chatActive} messages={messages} message={message} 
                 getMessages={getMessages} addMessage={addMessage} getUsers={getUsers} 
-                changeMessage={changeMessage} chats={chats} />}
+                changeMessage={changeMessage} chats={chats} scroll={scroll}
+                getScroll={getScroll} setScroll={setScroll} closeOpenChat={closeOpenChat}
+                setCloseOpenChat={setCloseOpenChat} />}
         </main>
     );
 }

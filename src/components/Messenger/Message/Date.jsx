@@ -19,7 +19,7 @@ const Date = ({ date }) => {
     })
 
     return (
-        <animated.div style={style}>
+        <animated.div>
             <div className={s.date}>
                 <div className={s.date_text}>
                     {date}

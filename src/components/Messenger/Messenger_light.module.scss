@@ -24,6 +24,7 @@
         background-color: #fff;
 
         word-wrap: break-word;
+        word-break: break-all;
 
         border-radius: $border;
     }
@@ -497,6 +498,8 @@
     .messages {
         transition: .3s;
         padding: 0 40px 0 40px;
+        width: 100%;
+        height: 100%;
         overflow-y: auto;
         overflow-x: hidden;
         flex: 1 1 auto;
