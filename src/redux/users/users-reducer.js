@@ -52,7 +52,7 @@ const usersReducer = (state = initalialState, action) => {
         case GET_USER_SCROLL: {
             return {
                 ...state,
-                scroll: state.chats[action.userId - 1].scroll
+                scroll: state.chats[state.chatActive-1].scroll
             }
         }
 
@@ -60,7 +60,7 @@ const usersReducer = (state = initalialState, action) => {
             return {
                 ...state,
                 chats: state.chats.map(c => {
-                    if (c.id === action.userId) {
+                    if (c.id === state.chatActive) {
                         return {...c, scroll: action.scroll}
                     }
                     return c
@@ -85,8 +85,8 @@ export const setMessages = (msg) => ({ type: SET_MESSAGES, msg })
 export const setChatActive = (userId) => ({ type: SET_CHAT_ACTIVE, userId })
 export const setMessage = (text) => ({ type: SET_MESSAGE, text })
 
-export const getUserScroll = (userId) => ({ type: GET_USER_SCROLL, userId })
-export const setUserScroll = (userId, scroll) => ({ type: SET_USER_SCROLL, userId, scroll })
+export const getUserScroll = () => ({ type: GET_USER_SCROLL })
+export const setUserScroll = (scroll) => ({ type: SET_USER_SCROLL, scroll })
 
 export const setterCloseOpenChat = (change) => ({ type: SETTER_CLOSE_OPEN_CHAT, change })
 
@@ -113,13 +113,12 @@ export const addMessage = (userId, msg, date, state) => async (dispatch) => {
     dispatch(getUsers())
 };
 
-export const getScroll = (userId) => async (dispatch) => {
-    dispatch(getUserScroll(userId))
+export const getScroll = () => async (dispatch) => {
+    dispatch(getUserScroll())
 };
 
-export const setScroll = (userId, scroll) => async (dispatch) => {
-    dispatch(setUserScroll(userId, scroll))
-    dispatch(getScroll(userId, scroll))
+export const setScroll = (scroll) => async (dispatch) => {
+    dispatch(setUserScroll(scroll))
 };
 
 export const setCloseOpenChat = (change) => async (dispatch) => {
