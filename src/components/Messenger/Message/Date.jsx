@@ -6,8 +6,11 @@ import light from ".././Messenger_light.module.scss"
 
 // dark img
 
-const Date = ({ date }) => {
+const LastDate = ({ date }) => {
     let s = light
+    
+    const monthsList = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const dateMsg = new Date(date);
 
     const style = useSpring({
         from: {
@@ -22,11 +25,11 @@ const Date = ({ date }) => {
         <animated.div>
             <div className={s.date}>
                 <div className={s.date_text}>
-                    {date}
+                    {`${monthsList[dateMsg.getMonth()]} ${dateMsg.getDate()}`}
                 </div>
             </div>
         </animated.div>
     );
 }
 
-export default Date;
+export default LastDate;

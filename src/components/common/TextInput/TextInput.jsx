@@ -16,8 +16,7 @@ import send_light from '.././../../assets/img/input/send.png';
 const TextInput = ({ chatActive, addMessage, changeMessage, message }) => {
     let s = light
 
-    const now = new Date();
-    let date = `${now.getHours()}:${now.getMinutes()}`
+    const date = new Date()
 
     let [height, setHeight] = useState(0)
     let [hideButtons, setHideButtons] = useState(false)
@@ -34,10 +33,6 @@ const TextInput = ({ chatActive, addMessage, changeMessage, message }) => {
         }
     }
 
-    if (now.getMinutes() < 10) {
-        date = `${now.getHours()}:0${now.getMinutes()}`
-    }
-
     const validationSchemaLoginForm = Yup.object().shape({
         message: Yup.string()
             .max(3500, "Must be shorter than 3500 characters")
@@ -51,7 +46,7 @@ const TextInput = ({ chatActive, addMessage, changeMessage, message }) => {
             onSubmit={(values, { setSubmitting, setStatus }) => {
                 setTimeout(() => {
                     setSubmitting(true);
-                    addMessage(chatActive, values.message, date, setStatus)
+                    addMessage(chatActive, values.message, date.toUTCString(), setStatus)
                     values.message = ""
                     setSubmitting(false);
                 }, 1)

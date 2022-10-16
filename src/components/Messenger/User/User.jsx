@@ -13,22 +13,22 @@ const User = ({ username, avatar, missedMsg, lastMsg, lastActive, scroll,
         getMessages(id)
     }
 
-    if(username.length > 18) {
+    if (username.length > 18) {
         username = `${username.substr(0, 18)}...`
     }
 
-    if(!!lastMsg && lastMsg.length > 50) {
+    if (!!lastMsg && lastMsg.length > 50) {
         lastMsg = `${lastMsg.substr(0, 50)}...`
     }
-    
+
     return (
         <div onClick={() => clickUser(id)} className={style}>
-            <img className={s.user_img} src={!!avatar 
-                                                ? avatar
-                                                : chatActive===id 
-                                                    ? user_dark
-                                                    : user_light
-                                                } alt="#" />
+            <img className={s.user_img} src={!!avatar
+                ? avatar
+                : chatActive === id
+                    ? user_dark
+                    : user_light
+            } alt="#" />
             <div className={s.user_data}>
                 <div className={s.user_activity}>
                     <h1 className={s.user_name}>{username}</h1>

@@ -7,14 +7,19 @@ const SET_MESSAGE = "SET_MESSAGE"
 const SET_USER_SCROLL = "SET_USER_SCROLL"
 const GET_USER_SCROLL = "GET_USER_SCROLL"
 const SETTER_CLOSE_OPEN_CHAT = "SETTER_CLOSE_OPEN_CHAT"
+const SET_RENDERED = "SET_RENDERED"
+const SETTER_ON_RIGHT_CLICK = "SETTER_ON_RIGHT_CLICK"
+const SETTER_MSG_ACTIVE = "SETTER_MSG_ACTIVE"
 
 let initalialState = {
     chats: [],
     messages: [],
     chatActive: null,
+    msgActive: null,
     scroll: 0,
     inputMsg: "",
-    closeOpenChat: true
+    closeOpenChat: true,
+    rendered: false
 }
 
 const usersReducer = (state = initalialState, action) => {
@@ -75,10 +80,32 @@ const usersReducer = (state = initalialState, action) => {
             }
         }
 
+        case SET_RENDERED: {
+            return {
+                ...state,
+                rendered: action.bool
+            }
+        }
+
+        case SETTER_ON_RIGHT_CLICK: {
+            return {
+                ...state,
+                msgActive: action.msg
+            }
+        }
+        case SETTER_MSG_ACTIVE: {
+            return {
+                ...state,
+                msgActive: null
+            }
+        }
+
         default:
             return state;
     }
 }
+
+export const setterRendered = (bool) => ({ type: SET_RENDERED, bool })
 
 export const setUsers = (chats) => ({ type: SET_USERS, chats })
 export const setMessages = (msg) => ({ type: SET_MESSAGES, msg })
@@ -89,6 +116,11 @@ export const getUserScroll = () => ({ type: GET_USER_SCROLL })
 export const setUserScroll = (scroll) => ({ type: SET_USER_SCROLL, scroll })
 
 export const setterCloseOpenChat = (change) => ({ type: SETTER_CLOSE_OPEN_CHAT, change })
+export const setterOnRightClick = (msg) => ({ type: SETTER_ON_RIGHT_CLICK, msg })
+export const setterMsgActive = () => ({ type: SETTER_MSG_ACTIVE})
+
+
+
 
 export const getMessages = (userId) => async (dispatch) => {
     let response = await usersAPI.getMsg(userId)
@@ -106,11 +138,14 @@ export const changeMessage = (text) => async (dispatch) => {
 };
 
 export const addMessage = (userId, msg, date, state) => async (dispatch) => {
-    await usersAPI.addMessage(userId, msg, date)
-    await usersAPI.addLastMsgToChat(userId, msg)
-    dispatch(setMessage(""))
-    dispatch(getMessages(userId))
-    dispatch(getUsers())
+    if (msg.trim() !== "") {
+        await usersAPI.addMessage(userId, msg, date)
+        await usersAPI.addLastMsgToChat(userId, msg)
+        dispatch(getMessages(userId))
+        dispatch(getUsers())
+        dispatch(setterRendered(false))
+        dispatch(setMessage(""))
+    }
 };
 
 export const getScroll = () => async (dispatch) => {
@@ -121,8 +156,22 @@ export const setScroll = (scroll) => async (dispatch) => {
     dispatch(setUserScroll(scroll))
 };
 
+export const setRendered = (bool) => async (dispatch) => {
+    dispatch(setterRendered(bool))
+};
+
 export const setCloseOpenChat = (change) => async (dispatch) => {
     dispatch(setterCloseOpenChat(change))
 };
+
+export const setOnRightClick = (id, chatActive) => async (dispatch) => {
+    let response = await usersAPI.findMsg(id, chatActive)
+    dispatch(setterOnRightClick(response))
+};
+
+export const setMsgActive = () => async (dispatch) => {
+    dispatch(setterMsgActive())
+};
+
 
 export default usersReducer;

@@ -17,8 +17,9 @@ import Messages from './Messages';
 //
 
 const Messenger = ({ chats, chatActive, messages, message,
-    getMessages, addMessage, getUsers, changeMessage, scroll, getScroll, 
-    setScroll, closeOpenChat, setCloseOpenChat }) => {
+    getMessages, addMessage, getUsers, changeMessage, scroll, getScroll,
+    setScroll, closeOpenChat, setCloseOpenChat, setRendered, rendered, setOnRightClick,
+    msgActive, setMsgActive }) => {
     let s = light
 
     // css animation
@@ -73,7 +74,6 @@ const Messenger = ({ chats, chatActive, messages, message,
         }, 150)
     }
     // css animation
-
     return (
         <main className={s.main}>
             <Spring
@@ -137,11 +137,13 @@ const Messenger = ({ chats, chatActive, messages, message,
                     </div>
                     <p className={s.not_active_chat_text}>Select a chat to start chatting</p>
                 </div>
-                : <Messages chatActive={chatActive} messages={messages} message={message} 
-                getMessages={getMessages} addMessage={addMessage} getUsers={getUsers} 
-                changeMessage={changeMessage} chats={chats} scroll={scroll}
-                getScroll={getScroll} setScroll={setScroll} closeOpenChat={closeOpenChat}
-                setCloseOpenChat={setCloseOpenChat} />}
+                : <Messages chatActive={chatActive} messages={messages} message={message}
+                    getMessages={getMessages} addMessage={addMessage} getUsers={getUsers}
+                    changeMessage={changeMessage} chats={chats} scroll={scroll}
+                    getScroll={getScroll} setScroll={setScroll} closeOpenChat={closeOpenChat}
+                    setCloseOpenChat={setCloseOpenChat} setRendered={setRendered} 
+                    rendered={rendered} setOnRightClick={setOnRightClick}
+                    msgActive={msgActive} setMsgActive={setMsgActive}  />}
         </main>
     );
 }

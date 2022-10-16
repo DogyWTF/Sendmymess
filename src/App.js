@@ -6,6 +6,11 @@ import store from "./redux/redux-store.js"
 import MessengerContainer from './components/Messenger/MessengerContainer';
 
 const App = (props) => {
+
+  document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+  });
+
   return (
     <div>
       <Suspense fallback={<div>Loading</div>}>
@@ -23,7 +28,7 @@ class AppContainer extends Component {
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Provider store={store}>
-          <App store={store}/>
+          <App store={store} />
         </Provider>
       </BrowserRouter>
     );
