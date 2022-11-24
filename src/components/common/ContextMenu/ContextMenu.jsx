@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import light from "../../Messenger/Messenger_light.module.scss"
 
 // light img
@@ -6,11 +7,15 @@ import delete_light from '../../../assets/img/light/delete.png';
 import copy_light from '../../../assets/img/light/copy.png';
 
 class ContextMenu extends Component {
+    constructor(props) {
+        super(props)
+    }
+
     state = {
         xPos: "0px",
         yPos: "0px",
         showMenu: false,
-        dobleClick: false,
+        dobleClick: false
     }
 
     componentDidMount() {
@@ -24,7 +29,10 @@ class ContextMenu extends Component {
     }
 
     handleClick = (e) => {
-        if (this.state.showMenu) this.setState({ showMenu: false, dobleClick: false });
+        if (this.state.showMenu) {
+            this.setState({ showMenu: false, dobleClick: false })
+            this.props.setMsgActive()
+        };
     };
 
     handleContextMenu = (e) => {
@@ -39,6 +47,21 @@ class ContextMenu extends Component {
         }
     };
 
+    copyClick = (e) => {
+        navigator.clipboard.writeText(this.props.msgActive.message)
+        this.props.setMsgActive()
+        this.setState({ dobleClick: false })
+        this.props.setPopupText("Message copied")
+        setTimeout(() => {this.props.setPopupText(null)}, 2000)
+    }
+
+    deleteClick = (e) => {
+        this.setState({ dobleClick: false })
+        this.props.setPopupText("Message deleted")
+        this.props.deleteMsg(this.props.msgActive ,this.props.chatActive)
+        setTimeout(() => {this.props.setPopupText(null)}, 2000)
+    }
+
     render() {
         const { showMenu, xPos, yPos } = this.state;
 
@@ -52,15 +75,11 @@ class ContextMenu extends Component {
                         position: "absolute",
                     }}
                 >
-                    <li onClick={() => {
-                        navigator.clipboard.writeText(this.props.msgActive.message)
-                        this.props.setMsgActive()
-                        this.setState({dobleClick: false})
-                    }} className={light.item}>
+                    <li onClick={this.copyClick.bind(this)} className={light.item}>
                         <img src={copy_light} alt="#" />
                         <span>Copy</span>
                     </li>
-                    <li className={light.item}>
+                    <li onClick={this.deleteClick.bind(this)} className={light.item}>
                         <img src={delete_light} alt="#" />
                         <span>Delete</span>
                     </li>

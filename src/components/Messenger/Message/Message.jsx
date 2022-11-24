@@ -21,7 +21,7 @@ const Message = ({ message, styles, revised, time, isMyMessage, id, setOnRightCl
     
     return (
         <div className={styles}>
-            <div onContextMenu={handleContextMenu} style={{ backgroundColor: isMyMessage ? "#6C6B6A" : "#fff", color: isMyMessage ? "#fff" : "#000", textAlign: isMyMessage ? "right" : "left" }} className={s.message}>
+            <div onContextMenu={handleContextMenu} style={{ backgroundColor: isMyMessage ? "#6C6B6A" : "#fff", color: isMyMessage ? "#fff" : "#000" }} className={s.message}>
                 {message}
             </div>
             <p className={s.time}>{date}</p>

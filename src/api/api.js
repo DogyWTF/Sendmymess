@@ -49,10 +49,17 @@ export const usersAPI = {
         }
 
     },
-    addLastMsgToChat(userId = 1, msg) {
-        chats[userId - 1] = { ...chats[userId - 1], lastMsg: msg }
+    addLastMsgToChat(userId = 1) {
+        chats[userId - 1] = { ...chats[userId - 1], lastMsg: messages[userId - 1][messages[userId - 1].length - 1].message }
     },
     findMsg(id, userId) {
-        return messages[userId-1][id-1]
+        return messages[userId - 1][id - 1]
+    },
+    deleteMsg(obj, userId) {
+        if (obj.isMyMessage && messages[userId - 1][obj.id - 2].date) {
+            messages[userId - 1].splice(obj.id - 2, 2)
+        } else if (obj.isMyMessage) {
+            messages[userId - 1].splice(obj.id - 1, 1)
+        }
     }
 }

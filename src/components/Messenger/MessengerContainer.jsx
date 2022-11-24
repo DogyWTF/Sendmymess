@@ -11,7 +11,9 @@ import { getUsers,
     setCloseOpenChat,
     setRendered,
     setOnRightClick,
-    setMsgActive } from '../../redux/users/users-reducer';
+    setMsgActive,
+    setPopupText,
+    deleteMsg } from '../../redux/users/users-reducer';
 
 import Messenger from './Messenger';
 
@@ -44,6 +46,8 @@ class MessengerContainer extends Component {
             setCloseOpenChat={this.props.setCloseOpenChat} setRendered={this.props.setRendered}
             rendered={this.props.rendered} setOnRightClick={this.props.setOnRightClick}
             msgActive={this.props.msgActive} setMsgActive={this.props.setMsgActive}
+            setPopupText={this.props.setPopupText} popupText={this.props.popupText}
+            deleteMsg={this.props.deleteMsg}
             />
         );
     }
@@ -57,7 +61,8 @@ let mapStateToProps = (state) => ({
     scroll: state.users.scroll,
     closeOpenChat: state.users.closeOpenChat,
     rendered: state.users.rendered,
-    msgActive: state.users.msgActive
+    msgActive: state.users.msgActive,
+    popupText: state.users.popupText
 })
 
 export default connect(mapStateToProps, 
@@ -70,4 +75,6 @@ export default connect(mapStateToProps,
     setCloseOpenChat,
     setRendered,
     setOnRightClick,
-    setMsgActive})(withRouter(MessengerContainer))
+    setMsgActive,
+    setPopupText,
+    deleteMsg})(withRouter(MessengerContainer))

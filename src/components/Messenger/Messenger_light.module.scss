@@ -643,7 +643,9 @@
                 }
             }
         }
-    } .err_msg {
+    }
+
+    .err_msg {
         font-weight: 300;
         font-size: 12px;
         color: #C70000;
@@ -687,50 +689,60 @@
         p:nth-child(1) {
             @include animtext;
         }
+
         p:nth-child(2) {
             @include animtext;
             animation-delay: .1s;
         }
+
         p:nth-child(3) {
             @include animtext;
             animation-delay: .2s;
         }
+
         p:nth-child(4) {
             @include animtext;
             animation-delay: .3s;
         }
+
         p:nth-child(5) {
             @include animtext;
             animation-delay: .4s;
         }
+
         p:nth-child(6) {
             @include animtext;
             animation-delay: .5s;
         }
+
         p:nth-child(7) {
             @include animtext;
             animation-delay: .6s;
         }
+
         p:nth-child(8) {
             @include animtext;
             animation-delay: .7s;
         }
+
         p:nth-child(9) {
             @include animtext;
             animation-delay: .8s;
         }
+
         p:nth-child(10) {
             @include animtext;
             animation-delay: .9s;
         }
     }
 
-    .not_active_chat_text{
+    .not_active_chat_text {
         margin: 5px 0;
     }
 }
 
 .context_menu {
+    z-index: 50;
     border-radius: 10px;
     background-color: #fff;
     width: 150px;
@@ -748,12 +760,52 @@
             width: 20px;
             height: 20px;
         }
-       
+
         span {
             margin: 0 0 0 5px;
         }
-    } 
+    }
+
     .item:hover {
         background-color: #f2f2f2;
+    }
+}
+
+.popup_msg {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    position: absolute;
+    top: -30px;
+
+    animation-name: popup;
+    animation-duration: 2s;
+
+    @keyframes popup {
+        0% {
+            top: -30px;
+        }
+
+        25% {
+            top: 5px;
+        }
+
+        75% {
+            top: 5px;
+        }
+
+        100% {
+            top: -30px;
+        }
+    }
+
+    div {
+        margin: 0 auto;
+        padding: 5px 10px;
+        font-size: 16px;
+        border-radius: 8px;
+        background-color: #3a3a3a;
+        color: #fff;
     }
 }

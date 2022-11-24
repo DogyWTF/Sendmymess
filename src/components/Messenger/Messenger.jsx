@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 import light from "./Messenger_light.module.scss"
 
 import User from './User/User';
+import Messages from './Messages';
 
 // img
 import magnifying_glass from './../../assets/img/input/magnifying-glass.png';
@@ -12,14 +13,13 @@ import magnifying_glass from './../../assets/img/input/magnifying-glass.png';
 // light img
 import logo_light from './../../assets/img/logo/logo2.png';
 import me_light from './../../assets/img/light/me.png';
-import Messages from './Messages';
 
 //
 
-const Messenger = ({ chats, chatActive, messages, message,
-    getMessages, addMessage, getUsers, changeMessage, scroll, getScroll,
-    setScroll, closeOpenChat, setCloseOpenChat, setRendered, rendered, setOnRightClick,
-    msgActive, setMsgActive }) => {
+const Messenger = ({ chats, chatActive, messages, message, getMessages, addMessage, 
+    getUsers, changeMessage, scroll, getScroll, setScroll, closeOpenChat, 
+    setCloseOpenChat, setRendered, rendered, setOnRightClick, msgActive, setMsgActive,
+    popupText, setPopupText, deleteMsg }) => {
     let s = light
 
     // css animation
@@ -74,8 +74,13 @@ const Messenger = ({ chats, chatActive, messages, message,
         }, 150)
     }
     // css animation
+
     return (
-        <main className={s.main}>
+        <main style={{ position: "relative" }} className={s.main}>
+            {popupText
+                ? <div className={s.popup_msg}><div>{popupText}</div></div>
+                : null}
+
             <Spring
                 immediate={logo.hover}
                 from={{ marginLeft: '0px' }}
@@ -141,9 +146,11 @@ const Messenger = ({ chats, chatActive, messages, message,
                     getMessages={getMessages} addMessage={addMessage} getUsers={getUsers}
                     changeMessage={changeMessage} chats={chats} scroll={scroll}
                     getScroll={getScroll} setScroll={setScroll} closeOpenChat={closeOpenChat}
-                    setCloseOpenChat={setCloseOpenChat} setRendered={setRendered} 
+                    setCloseOpenChat={setCloseOpenChat} setRendered={setRendered}
                     rendered={rendered} setOnRightClick={setOnRightClick}
-                    msgActive={msgActive} setMsgActive={setMsgActive}  />}
+                    msgActive={msgActive} setMsgActive={setMsgActive}
+                    setPopupText={setPopupText} popupText={popupText}
+                    deleteMsg={deleteMsg} />}
         </main>
     );
 }

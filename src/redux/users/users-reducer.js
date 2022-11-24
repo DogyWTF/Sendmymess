@@ -10,12 +10,14 @@ const SETTER_CLOSE_OPEN_CHAT = "SETTER_CLOSE_OPEN_CHAT"
 const SET_RENDERED = "SET_RENDERED"
 const SETTER_ON_RIGHT_CLICK = "SETTER_ON_RIGHT_CLICK"
 const SETTER_MSG_ACTIVE = "SETTER_MSG_ACTIVE"
+const SETTER_POPUP_TEXT = "SETTER_POPUP_TEXT"
 
 let initalialState = {
     chats: [],
     messages: [],
     chatActive: null,
     msgActive: null,
+    popupText: null,
     scroll: 0,
     inputMsg: "",
     closeOpenChat: true,
@@ -93,10 +95,18 @@ const usersReducer = (state = initalialState, action) => {
                 msgActive: action.msg
             }
         }
+
         case SETTER_MSG_ACTIVE: {
             return {
                 ...state,
                 msgActive: null
+            }
+        }
+
+        case SETTER_POPUP_TEXT: {
+            return {
+                ...state,
+                popupText: action.text
             }
         }
 
@@ -117,7 +127,9 @@ export const setUserScroll = (scroll) => ({ type: SET_USER_SCROLL, scroll })
 
 export const setterCloseOpenChat = (change) => ({ type: SETTER_CLOSE_OPEN_CHAT, change })
 export const setterOnRightClick = (msg) => ({ type: SETTER_ON_RIGHT_CLICK, msg })
-export const setterMsgActive = () => ({ type: SETTER_MSG_ACTIVE})
+export const setterMsgActive = () => ({ type: SETTER_MSG_ACTIVE })
+
+export const setterPopupText = (text) => ({ type: SETTER_POPUP_TEXT, text })
 
 
 
@@ -140,7 +152,7 @@ export const changeMessage = (text) => async (dispatch) => {
 export const addMessage = (userId, msg, date, state) => async (dispatch) => {
     if (msg.trim() !== "") {
         await usersAPI.addMessage(userId, msg, date)
-        await usersAPI.addLastMsgToChat(userId, msg)
+        await usersAPI.addLastMsgToChat(userId)
         dispatch(getMessages(userId))
         dispatch(getUsers())
         dispatch(setterRendered(false))
@@ -171,6 +183,17 @@ export const setOnRightClick = (id, chatActive) => async (dispatch) => {
 
 export const setMsgActive = () => async (dispatch) => {
     dispatch(setterMsgActive())
+};
+
+export const deleteMsg = (obj, chatActive) => async (dispatch) => {
+    await usersAPI.deleteMsg(obj, chatActive)
+    await usersAPI.addLastMsgToChat(chatActive)
+    dispatch(getMessages(chatActive))
+    dispatch(getUsers())
+};
+
+export const setPopupText = (text) => async (dispatch) => {
+    dispatch(setterPopupText(text))
 };
 
 

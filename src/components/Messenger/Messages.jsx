@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useSpring, Spring, animated } from 'react-spring'
 
 import ContextMenu from '../common/ContextMenu/ContextMenu';
-import light from "./Messenger_light.module.scss"
 import Message from './Message/Message'
 import Date from './Message/Date';
 import TextInput from '../common/TextInput/TextInput';
 
+
+import light from "./Messenger_light.module.scss"
 // img
 
 // light img
@@ -40,7 +42,7 @@ const Messages = (props) => {
 
     useEffect(() => {
         props.getScroll()
-        if(list.clientHeight !== list.scrollHeight) {
+        if (list.clientHeight !== list.scrollHeight) {
             if (!props.rendered && props.scroll === 0) {
                 props.setScroll(list.scrollHeight)
                 props.setRendered(true)
@@ -56,8 +58,11 @@ const Messages = (props) => {
     if (!!chat && chat.description.length > 30) {
         chat.description = `${chat.description.substr(0, 30)}...`
     }
+
     return (<div className={s.messenger}>
-        <ContextMenu msgActive={props.msgActive} setMsgActive={props.setMsgActive} />
+        <ContextMenu setPopupText={props.setPopupText} popupText={props.popupText} 
+        msgActive={props.msgActive} setMsgActive={props.setMsgActive} 
+        chatActive={props.chatActive} deleteMsg={props.deleteMsg}/>
         <div className={s.header}>
             <div onClick={onClickBtn} className={classMenuIsOpen}>
                 <span></span>
@@ -83,15 +88,15 @@ const Messages = (props) => {
             {props.messages.map(m => {
                 if (!m.date) {
                     if (m.isMyMessage) {
-                        return <Message isMyMessage={m.isMyMessage} key={m.id} id={m.id} 
-                        setOnRightClick={props.setOnRightClick} styles={s.your_message} 
-                        revised={m.revised} time={m.time} message={m.message}
-                        chatActive={props.chatActive} />
+                        return <Message isMyMessage={m.isMyMessage} key={m.id} id={m.id}
+                            setOnRightClick={props.setOnRightClick} styles={s.your_message}
+                            revised={m.revised} time={m.time} message={m.message}
+                            chatActive={props.chatActive} />
                     } else {
-                        return <Message key={m.id} id={m.id} 
-                        setOnRightClick={props.setOnRightClick} styles={s.his_message} 
-                        revised={m.revised} time={m.time} message={m.message}
-                        chatActive={props.chatActive} />
+                        return <Message key={m.id} id={m.id}
+                            setOnRightClick={props.setOnRightClick} styles={s.his_message}
+                            revised={m.revised} time={m.time} message={m.message}
+                            chatActive={props.chatActive} />
                     }
                 } else {
                     return <Date key={m.id} date={m.date} />

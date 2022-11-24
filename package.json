@@ -18,6 +18,7 @@
     "react-scroll": "^1.8.7",
     "react-spring": "^9.5.2",
     "react-textarea-autosize": "^8.3.4",
+    "reactjs-popup": "^2.0.5",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "web-vitals": "^2.1.4",
